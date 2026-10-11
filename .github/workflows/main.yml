@@ -12,7 +12,7 @@ jobs:
       - name: Install and Start Tailscale
         run: |
           curl -fsSL https://tailscale.com/install.sh | sh
-          sudo tailscale up --authkey=${{ secrets.TAILSCALE_AUTH_KEY }} --hostname=gh-ubuntu-$env:GITHUB_RUN_ID
+          sudo tailscale up --authkey=${{ secrets.TAILSCALE_AUTH_KEY }} --hostname=gh-ubuntu-$GITHUB_RUN_ID
 
       - name: Get Tailscale IP
         run: |
