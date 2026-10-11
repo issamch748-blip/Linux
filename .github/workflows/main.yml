@@ -12,19 +12,21 @@ jobs:
       - name: Install and Start Tailscale
         run: |
           curl -fsSL https://tailscale.com/install.sh | sh
-          sudo tailscale up --authkey=${{ secrets.TAILSCALE_AUTH_KEY }} --hostname=gh-ubuntu-$GITHUB_RUN_ID
+          sudo tailscale up --authkey=${{ secrets.TAILSCALE_AUTH_KEY }} --hostname=gh-ubuntu-${{ github.run_id }} --ssh
 
       - name: Get Tailscale IP
         run: |
-          TS_IP=$(tailscale ip -4)
+          TS_IP=$(sudo tailscale ip -4)
           echo "TAILSCALE_IP=$TS_IP" >> $GITHUB_ENV
           echo "Server Tailscale IP is: $TS_IP"
 
       - name: Display Connection Details
         run: |
           echo "=========================================="
-          echo "Connect via SSH using your GitHub runner user:"
+          echo "Connect via SSH using Tailscale:"
           echo "ssh runner@${{ env.TAILSCALE_IP }}"
+          echo "or"
+          echo "ssh runner@gh-ubuntu-${{ github.run_id }}"
           echo "=========================================="
 
       - name: Keep Runner Alive
